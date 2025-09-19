@@ -13,7 +13,7 @@ const createOrderRequest = async (req, res, next) => {
             school_id: process.env.SCHOOL_ID,
             amount,
             callback_url,
-            webhook_url: "https://ecolepay.onrender.com/webhook",
+            webhook: "https://ecolepay.onrender.com/webhook",
         };
 
         const sign = jwt.sign(payload, process.env.PG_SECRET_KEY, { algorithm: "HS256" });

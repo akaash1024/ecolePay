@@ -15,6 +15,7 @@ const edvironWebhook = async (req, res, next) => {
     try {
         await fs.appendFile(datatxt_FilePath, logEntry, "utf-8");
         console.log(logEntry.trim());
+        res.status(200).json({message: "done akash"})
     } catch (err) {
         console.error(`Failed to write to log file: ${err}`);
     }

@@ -1,5 +1,5 @@
 const isAuthenticated = require("../middleware/isAuthenicated.middleware");
-const orderController = require("../controllers/orderRouter.controller")
+const orderController = require("../controllers/order.controller")
 
 const orderRouter = require("express").Router()
 
