@@ -2,6 +2,13 @@ const Order = require("../models/order.model");
 const OrderStatus = require("../models/orderStatus.model");
 
 const edvironWebhook = async (req, res, next) => {
+
+    for (let i = 0; i < 10; i++) {
+        console.log(`WEBHOOK REQUEST RECEIVED`);
+        console.log(`WEBHOOK REQUEST RECEIVED`);
+    }
+
+    /*
     try {
         const { status, order_info } = req.body;
 
@@ -47,6 +54,7 @@ const edvironWebhook = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+        */
 };
 
 module.exports = edvironWebhook;
