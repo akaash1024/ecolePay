@@ -1,5 +1,7 @@
 const Order = require("../models/order.model");
 const OrderStatus = require("../models/orderStatus.model");
+const fs = require("fs/promises");
+const path = require("path");
 
 const edvironWebhook = async (req, res, next) => {
 
@@ -7,7 +9,17 @@ const edvironWebhook = async (req, res, next) => {
         console.log(`WEBHOOK REQUEST RECEIVED`);
         console.log(`WEBHOOK REQUEST RECEIVED`);
     }
+    const logEntry = `Time: ${new Date().toLocaleString()} | Route: ${req.url} | Method: ${req.method}\n`;
+    const datatxt_FilePath = path.join(__dirname, "..", "webhookLog.txt")
 
+    try {
+        await fs.appendFile(datatxt_FilePath, logEntry, "utf-8");
+        console.log(logEntry.trim());
+    } catch (err) {
+        console.error(`Failed to write to log file: ${err}`);
+    }
+
+    next();
     /*
     try {
         const { status, order_info } = req.body;

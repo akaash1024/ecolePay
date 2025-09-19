@@ -4,6 +4,8 @@ const { connectDB } = require("./database/connectDB");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const trusteeAuthRouter = require("./routes/trusteeAuth.route");
+const fs = require("fs/promises");
+const path = require("path");
 
 const errorHandler = require("./middleware/errorHandler.middleware");
 const studentAuthRouter = require("./routes/studentAuth.route");
@@ -11,6 +13,7 @@ const cookieParser = require("cookie-parser");
 const orderRouter = require("./routes/orderRouter.route");
 const edvironWebhook = require("./routes/edvironWebhook.route");
 const getSchool = require("./routes/school.route");
+const { loggerMiddleware } = require("./middleware/logger.middleware");
 
 
 const app = express();
@@ -19,6 +22,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(loggerMiddleware);
 
 // Single webhook route
 app.post("/webhook", edvironWebhook);
