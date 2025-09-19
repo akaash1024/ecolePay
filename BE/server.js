@@ -8,7 +8,9 @@ const trusteeAuthRouter = require("./routes/trusteeAuth.route");
 const errorHandler = require("./middleware/errorHandler.middleware");
 const studentAuthRouter = require("./routes/studentAuth.route");
 const cookieParser = require("cookie-parser");
-const transactionRouter = require("./routes/transaction.route");
+const orderRouter = require("./routes/orderRouter.route");
+const edvironWebhook = require("./routes/edvironWebhook.route");
+
 
 const app = express();
 
@@ -17,13 +19,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/api/trustee", trusteeAuthRouter)
-app.use("/api/transaction", transactionRouter)
+// Single webhook route
+app.post("/webhook", edvironWebhook);
 
-// student
+app.use("/api/trustee", trusteeAuthRouter)
+
+app.use("/api/order", orderRouter)
+
+
+// TODO student- FUTURE Scaling
 app.use("/api/student", studentAuthRouter)
 
 
+
+/*
 // Generate token for collect-request creation
 app.use("/generateToken", (req, res) => {
     const pg_key = process.env.PG_SECRET_KEY || "edvtest01"; // secure it via env
@@ -42,9 +51,6 @@ app.use("/generateToken", (req, res) => {
         return res.status(500).json({ error: "Token generation failed" });
     }
 });
-
-
-
 
 app.get("/check-status", async (req, res) => {
     try {
@@ -74,9 +80,7 @@ app.get("/check-status", async (req, res) => {
     }
 });
 
-
-
-
+*/
 
 
 
