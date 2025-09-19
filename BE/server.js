@@ -10,6 +10,7 @@ const studentAuthRouter = require("./routes/studentAuth.route");
 const cookieParser = require("cookie-parser");
 const orderRouter = require("./routes/orderRouter.route");
 const edvironWebhook = require("./routes/edvironWebhook.route");
+const getSchool = require("./routes/school.route");
 
 
 const app = express();
@@ -30,6 +31,9 @@ app.use("/api/order", orderRouter)
 // TODO student- FUTURE Scaling
 app.use("/api/student", studentAuthRouter)
 
+app.get("/api/school/:id", getSchool);
+
+app.get("/", (req,res)=>res.status(200).json({message: "Hello ecolePay"}))
 
 
 /*
