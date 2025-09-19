@@ -2,27 +2,27 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const adminAuthSchema = new mongoose.Schema({
+const trusteeAuthSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ["admin"], default: "admin" },
+    role: { type: String, enum: ["trustee"], default: "trustee" },
     avatar: { type: String, required: true },
 });
 
 // Hash password before save
-adminAuthSchema.pre("save", async function (next) {
+trusteeAuthSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
 });
 
-adminAuthSchema.methods.comparePassword = function (password) {
+trusteeAuthSchema.methods.comparePassword = function (password) {
     return bcrypt.compare(password, this.password);
 };
 
-adminAuthSchema.methods.generateToken = function () {
+trusteeAuthSchema.methods.generateToken = function () {
     return jwt.sign(
         {
             userId: this._id.toString(),
@@ -34,5 +34,5 @@ adminAuthSchema.methods.generateToken = function () {
     );
 };
 
-const AdminAuth = mongoose.model("AdminAuth", adminAuthSchema);
-module.exports = { AdminAuth };
+const TrusteeAuth = mongoose.model("TrusteeAuth", trusteeAuthSchema);
+module.exports = { TrusteeAuth };

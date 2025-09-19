@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../model/user.model");
-
+const { TrusteeAuth } = require("../models/trusteeAuth.model");
 
 const isAuthenticated = async (req, res, next) => {
     console.log("Cookies:", req.cookies);
@@ -17,7 +16,7 @@ const isAuthenticated = async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-        const userData = await User.findById(decoded.userId).select("-password");
+        const userData = await TrusteeAuth.findById(decoded.userId).select("-password");
         if (!userData) {
             return res.status(404).json({ message: "User not found" });
         }

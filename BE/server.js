@@ -1,20 +1,28 @@
 require("dotenv").config();
 const express = require("express");
 const { connectDB } = require("./database/connectDB");
-const adminAuthRouter = require("./routes/adminAuth.route");
+const axios = require("axios");
+const jwt = require("jsonwebtoken");
+const trusteeAuthRouter = require("./routes/trusteeAuth.route");
+
 const errorHandler = require("./middleware/errorHandler.middleware");
+const studentAuthRouter = require("./routes/studentAuth.route");
+const cookieParser = require("cookie-parser");
+const transactionRouter = require("./routes/transaction.route");
 
 const app = express();
 
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
+app.use("/api/trustee", trusteeAuthRouter)
+app.use("/api/transaction", transactionRouter)
 
-app.use("/api/admin", adminAuthRouter)
+// student
+app.use("/api/student", studentAuthRouter)
 
-const axios = require("axios");
-const jwt = require("jsonwebtoken");
 
 // Generate token for collect-request creation
 app.use("/generateToken", (req, res) => {
@@ -41,8 +49,8 @@ app.use("/generateToken", (req, res) => {
 app.get("/check-status", async (req, res) => {
     try {
         const school_id = "65b0e6293e9f76a9694d84b4";
-        const collect_request_id = "68cce01d154d1bce65b56d2f"; // replace with dynamic id
-        const pg_key = "edvtest01"; // PG Secret Key
+        const collect_request_id = "68cce01d154d1bce65b56d2f"; 
+        const pg_key = "edvtest01"; 
         const api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cnVzdGVlSWQiOiI2NWIwZTU1MmRkMzE5NTBhOWI0MWM1YmEiLCJJbmRleE9mQXBpS2V5Ijo2fQ.IJWTYCOurGCFdRM2xyKtw6TEcuwXxGnmINrXFfsAdt0"
 
         // Generate sign token

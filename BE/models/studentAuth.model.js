@@ -6,8 +6,7 @@ const studentAuthSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    rollNumber: { type: String, required: true, unique: true },
-    course: { type: String, required: true },
+    studentId: { type: String, required: true, unique: true },
     avatar: { type: String },
     role: { type: String, enum: ["student"], default: "student" },
 });

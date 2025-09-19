@@ -1,11 +1,12 @@
-const { AdminAuth } = require("../models/adminAuth.model");
+
+const { TrusteeAuth } = require("../models/trusteeAuth.model");
 const uploadOnCloudinary = require("../utils/cloudinary");
 
 const register = async (req, res, next) => {
     try {
         const { name, email, password, role } = req.body;
 
-        const existing = await AdminAuth.findOne({ email });
+        const existing = await TrusteeAuth.findOne({ email });
         if (existing) {
             return res.status(400).json({ success: false, message: "Email already registered" });
         }
@@ -22,7 +23,7 @@ const register = async (req, res, next) => {
 
         
 
-        const newAdmin = await AdminAuth.create({
+        const newtrustee = await TrusteeAuth.create({
             name,
             email,
             password,
@@ -30,7 +31,7 @@ const register = async (req, res, next) => {
             avatar: avatar.url,
         });
 
-        const token = newAdmin.generateToken();
+        const token = newtrustee.generateToken();
 
         res.cookie("token", token, {
             httpOnly: true,
@@ -41,9 +42,9 @@ const register = async (req, res, next) => {
 
         return res.status(201).json({
             success: true,
-            message: "Admin registered successfully",
+            message: "trustee registered successfully",
             token,
-            userId: newAdmin._id.toString(),
+            userId: newtrustee._id.toString(),
         });
     } catch (error) {
         next(error);
@@ -53,18 +54,18 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        const admin = await AdminAuth.findOne({ email }).select("+password");
+        const trustee = await TrusteeAuth.findOne({ email }).select("+password");
 
-        if (!admin) {
+        if (!trustee) {
             return res.status(400).json({ success: false, message: "Invalid credentials" });
         }
 
-        const isValid = await admin.comparePassword(password);
+        const isValid = await trustee.comparePassword(password);
         if (!isValid) {
             return res.status(401).json({ success: false, message: "Invalid email or password" });
         }
 
-        const token = admin.generateToken();
+        const token = trustee.generateToken();
 
         res.cookie("token", token, {
             httpOnly: true,
@@ -77,7 +78,7 @@ const login = async (req, res, next) => {
             success: true,
             message: "Login successful",
             token,
-            userId: admin._id.toString(),
+            userId: trustee._id.toString(),
         });
     } catch (error) {
         next(error);
