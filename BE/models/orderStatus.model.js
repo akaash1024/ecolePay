@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const orderStatusSchema = new mongoose.Schema({
-    order_id: { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: true },
+    collect_id: { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: true },
     order_amount: { type: Number, required: true },
     transaction_amount: { type: Number, default: 0 },
     payment_mode: { type: String, enum: ["cash", "online"], required: true },
@@ -15,6 +15,10 @@ const orderStatusSchema = new mongoose.Schema({
     timestamps: true
 });
 
-const OrderStatus = mongoose.model("OrderStatus", orderStatusSchema);
 
+orderStatusSchema.index({ collect_id: 1 });
+orderStatusSchema.index({ status: 1 });
+orderStatusSchema.index({ payment_time: -1 });
+
+const OrderStatus = mongoose.model("OrderStatus", orderStatusSchema);
 module.exports = OrderStatus;

@@ -5,7 +5,7 @@ const path = require("path");
 
 const edvironWebhook = async (req, res, next) => {
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 2; i++) {
         console.log(`WEBHOOK REQUEST RECEIVED`);
         console.log(`WEBHOOK REQUEST RECEIVED`);
     }
@@ -30,7 +30,7 @@ const edvironWebhook = async (req, res, next) => {
         }
 
         const {
-            order_id,
+            collect_id ,
             order_amount,
             transaction_amount,
             gateway,
@@ -44,11 +44,11 @@ const edvironWebhook = async (req, res, next) => {
         } = order_info;
 
         // Find the order
-        const order = await Order.findOne({ collect_request_id: order_id });
+        const order = await Order.findOne({ collect_request_id: collect_id  });
         if (!order) return res.status(404).json({ message: "Order not found" });
 
         // Find the OrderStatus
-        const orderStatus = await OrderStatus.findOne({ order_id: order._id });
+        const orderStatus = await OrderStatus.findOne({ collect_id : order._id });
         if (!orderStatus) return res.status(404).json({ message: "OrderStatus not found" });
 
         // Update fields

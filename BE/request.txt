@@ -1,0 +1,2 @@
+Time: 20/9/2025, 9:53:13 am | Route: / | Method: GET
+Time: 20/9/2025, 9:53:15 am | Route: /favicon.ico | Method: GET

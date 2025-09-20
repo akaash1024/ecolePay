@@ -1,2 +1,0 @@
-Time: 19/9/2025, 7:19:01 pm | Route: /api/school/65b0e6293e9f76a9694d84b4 | Method: GET
-Time: 19/9/2025, 7:35:27 pm | Route: /webhook | Method: POST

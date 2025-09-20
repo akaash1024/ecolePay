@@ -12,28 +12,51 @@ const orderRouter = require("./routes/orderRouter.route");
 const edvironWebhook = require("./routes/edvironWebhook.route");
 const getSchool = require("./routes/school.route");
 
+const { createOrderRequest } = require("./controllers/order.controller");
+const isAuthenticated = require("./middleware/isAuthenicated.middleware");
+const { loggerMiddleware } = require("./middleware/logger.middleware");
+
+
 
 const app = express();
+const router = express.Router();
+
 
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(loggerMiddleware)
 
-// Single webhook route
-app.post("/webhook", edvironWebhook);
+app.post("/webhook", edvironWebhook)
+/*
+// Test GET route
+router.get("/api/create-payment", (req, res) => {
+    res.status(200).json({ message: "GET works!" });
+});
 
-app.use("/api/trustee", trusteeAuthRouter)
+// POST route with body
+router.post("/api/create-payment", isAuthenticated, createOrderRequest);
 
+// Webhook route
+router.post("/webhook", (req, res) => {
+    console.log("Webhook received:", req.body);
+    res.status(200).json({ message: "Webhook received successfully" });
+});
+
+// Attach router
+app.use("/", router);
+*/
+
+app.use("/api/trustee", isAuthenticated, createOrderRequest)
 app.use("/api/order", orderRouter)
 
 
 // TODO student- FUTURE Scaling
 app.use("/api/student", studentAuthRouter)
-
 app.get("/api/school/:id", getSchool);
 
-app.get("/", (req,res)=>res.status(200).json({message: "Hello ecolePay"}))
+app.get("/", (req, res) => res.status(200).json({ message: "Hello ecolePay BE Server" }))
 
 
 /*
@@ -85,8 +108,6 @@ app.get("/check-status", async (req, res) => {
 });
 
 */
-
-
 
 const PORT = process.env.PORT || 5000;
 app.use(errorHandler)
