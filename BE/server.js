@@ -30,6 +30,7 @@ app.use(loggerMiddleware)
 const whitelist = [process.env.FE_URL, process.env.DEPLOY_FE_URL];
 const corsOptions = (req, callback) => {
     const origin = req.header("Origin");
+    console.log("Incoming Origin:", origin); 
     if (whitelist.includes(origin) || !origin) {
         callback(null, {
             origin: true,
@@ -38,6 +39,7 @@ const corsOptions = (req, callback) => {
             allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
         });
     } else {
+        console.warn("Blocked by CORS:", origin);
         callback(null, { origin: false });
     }
 };
