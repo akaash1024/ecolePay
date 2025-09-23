@@ -1,0 +1,21 @@
+
+PORT = 3000
+MONGO_URL = mongodb+srv://sophon:sophon@cluster0.ppf7jyr.mongodb.net/ecolePay?retryWrites=true&w=majority&appName=Cluster0
+
+JWT_SECRET_KEY = 0rx30pt6jh
+
+CLOUD_NAME=dmzo7pria
+API_KEY=583554861255523
+API_SECRET=FhVCzNvgRqtWO_3Jn1S0seh4Dqc
+
+
+# Paymment keys 
+// static for now
+SCHOOL_ID = 65b0e6293e9f76a9694d84b4 
+
+PG_SECRET_KEY = edvtest01
+EDVIRON_API_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cnVzdGVlSWQiOiI2NWIwZTU1MmRkMzE5NTBhOWI0MWM1YmEiLCJJbmRleE9mQXBpS2V5Ijo2fQ.IJWTYCOurGCFdRM2xyKtw6TEcuwXxGnmINrXFfsAdt0
+
+
+FE_URL = http://localhost:5173
+DEPLOY_FE_URL = https://ecolepay.vercel.app
