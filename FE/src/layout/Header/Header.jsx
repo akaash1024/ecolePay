@@ -43,15 +43,19 @@ export const Header = () => {
                 >
                   Overview
                 </NavLink>
+                <NavLink
+                  to="/status"
+                  className="cursor-pointer px-3 py-1 bg-green-400 text-green-900 rounded-full font-medium hover:text-white transition-colors"
+                >
+                  Status
+                </NavLink>
                 <li className="cursor-pointer px-3 py-1 bg-green-400 text-green-900 rounded-full font-medium hover:text-white transition-colors">
                   School
                 </li>
-                <li className="cursor-pointer px-3 py-1 bg-green-400 text-green-900 rounded-full font-medium hover:text-white transition-colors">
-                  Status
-                </li>
               </div>
 
-              <button type="button"
+              <button
+                type="button"
                 className="cursor-pointer px-6 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition-colors"
                 onClick={handleLogout}
               >
@@ -60,10 +64,16 @@ export const Header = () => {
             </>
           ) : (
             <>
-              <button type="button" className="cursor-pointer px-6 py-2 bg-green-500 text-white rounded-full font-medium hover:bg-green-600 transition-colors">
+              <button
+                type="button"
+                className="cursor-pointer px-6 py-2 bg-green-500 text-white rounded-full font-medium hover:bg-green-600 transition-colors"
+              >
                 Sing up
               </button>
-              <button type="button" className="cursor-pointer px-6 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition-colors">
+              <button
+                type="button"
+                className="cursor-pointer px-6 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition-colors"
+              >
                 Login
               </button>
             </>

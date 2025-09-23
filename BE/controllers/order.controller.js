@@ -36,7 +36,6 @@ const createOrderRequest = async (req, res, next) => {
         const newOrder = await Order.create({
             trustee_id: req.userId,
             student_info: { name: student.name, id: student._id.toString(), email: student.email },
-            gateway_name: gateway_name || "online",
             collect_request_id,
             amount
         });
@@ -64,33 +63,36 @@ const getTransactions = async (req, res, next) => {
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
-
         const skip = (page - 1) * limit;
 
-
-
-
-        const transactions = await OrderStatus.aggregate(
-            [
-                { $lookup: { from: "orders", localField: "collect_id", foreignField: "_id", as: "order_info" } },
-                { $unwind: "$order_info" },
-                { $skip: skip },
-                { $limit: limit },
-                {
-                    $project: {
-                        _id: 0,
-                        collect_id: "$collect_id",
-                        school_id: "$order_info.school_id",
-                        gateway: "$order_info.gateway_name",
-                        order_amount: "$order_amount",
-                        transaction_amount: "$transaction_amount",
-                        status: "$status",
-                        custom_order_id: "$order_info.collect_request_id",
-                        payment_time: "$payment_time"
-                    }
+        const transactions = await OrderStatus.aggregate([
+            {
+                $lookup: {
+                    from: "orders",
+                    localField: "collect_id",
+                    foreignField: "_id",
+                    as: "order_info"
                 }
-            ]
-        );
+            },
+            { $unwind: "$order_info" },
+            { $sort: { custom_order_id: -1 } },
+            { $skip: skip },
+            { $limit: limit },
+            {
+                $project: {
+                    _id: 0,
+                    collect_id: "$collect_id",
+                    school_id: "$order_info.school_id",
+                    gateway: "$order_info.gateway_name",
+                    order_amount: "$order_amount",
+                    transaction_amount: "$transaction_amount",
+                    status: "$status",
+                    custom_order_id: "$custom_order_id",
+
+                }
+            }
+        ]);
+
         const totalOrders = await Order.countDocuments();
 
         res.status(200).json({ success: true, ordersList: transactions, totalOrders });
@@ -98,6 +100,7 @@ const getTransactions = async (req, res, next) => {
         next(err);
     }
 };
+
 
 // Transactions by school
 const getTransactionsBySchool = async (req, res, next) => {
@@ -148,18 +151,20 @@ const checkOrder_status = async (req, res, next) => {
         const getOrderStatus = await OrderStatus.findOne({ custom_order_id: customOrderId })
 
         const getOrder = await Order.findOne({ _id: getOrderStatus.collect_id.toString() });
-        const { collect_request_id } = getOrder
+        const { collect_request_id, student_info } = getOrder
 
         const payload = { school_id: process.env.SCHOOL_ID, collect_request_id };
         const sign = jwt.sign(payload, process.env.PG_SECRET_KEY, { algorithm: "HS256" });
 
         const url = `https://dev-vanilla.edviron.com/erp/collect-request/${collect_request_id}?school_id=${process.env.SCHOOL_ID}&sign=${sign}`;
 
-        const response = await axios.get(url, {
+        const { data } = await axios.get(url, {
             headers: { Authorization: `Bearer ${process.env.EDVIRON_API_KEY}` }
         });
 
-        return res.status(200).json(response.data);
+        const studentData = await StudentAuth.find({ _id: student_info.id }).select("-password")
+
+        return res.status(200).json({ orderStaus: data, studentData });
     } catch (error) {
         next(error);
     }

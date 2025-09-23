@@ -71,3 +71,113 @@ Time: 22/9/2025, 5:15:09 pm Order_id: 68d130921dd8ef0412ff6e8f Status: undefined
                     Error: NA
                     ---
                     
+                    [2025-09-23T07:45:56.581Z]
+                    OrderID: 68d24ee28d1bfb1f99adfb6d
+                    Gateway: net_banking
+                    Status: failed
+                    Amount: 25000 / 25000
+                    Payment Mode: net_banking
+                    Bank Ref: 5114920886182
+                    Message: payment Failed
+                    Error: NA
+                    ---
+                    
+                    [2025-09-23T07:46:11.281Z]
+                    OrderID: 68d24ee28d1bfb1f99adfb6b
+                    Gateway: net_banking
+                    Status: failed
+                    Amount: 25000 / 25000
+                    Payment Mode: net_banking
+                    Bank Ref: 5114920886182
+                    Message: payment Failed
+                    Error: NA
+                    ---
+                    
+                    [2025-09-23T07:47:48.236Z]
+                    OrderID: 68d24ee28d1bfb1f99adfb6b
+                    Gateway: Axis Bank
+                    Status: failed
+                    Amount: 25000 / 25000
+                    Payment Mode: net_banking
+                    Bank Ref: 5114920886182
+                    Message: payment Failed
+                    Error: NA
+                    ---
+                    
+                    [2025-09-23T07:49:21.626Z]
+                    OrderID: 68d24ee28d1bfb1f99adfb6b
+                    Gateway: Axis Bank
+                    Status: failed
+                    Amount: 25000 / 25000
+                    Payment Mode: net_banking
+                    Bank Ref: 5114920886182
+                    Message: payment Failed
+                    Error: NA
+                    ---
+                    
+                    [2025-09-23T07:51:41.093Z]
+                    OrderID: 68d24ee28d1bfb1f99adfb6b
+                    Gateway: Axis Bank
+                    Status: failed
+                    Amount: 25000 / 25000
+                    Payment Mode: net_banking
+                    Bank Ref: 5114920886182
+                    Message: payment Failed
+                    Error: NA
+                    ---
+                    
+                    [2025-09-23T08:01:50.431Z]
+                    OrderID: 68d24ee28d1bfb1f99adfb6b
+                    Gateway: Axis Bank
+                    Status: failed
+                    Amount: 25000 / 25000
+                    Payment Mode: net_banking
+                    Bank Ref: 5114920886182
+                    Message: payment Failed
+                    Error: NA
+                    ---
+                    
+                    [2025-09-23T08:03:22.717Z]
+                    OrderID: 68d24ee28d1bfb1f99adfb6b
+                    Gateway: PayzApp
+                    Status: failed
+                    Amount: 25000 / 25000
+                    Payment Mode: net_banking
+                    Bank Ref: 5114920886182
+                    Message: payment Failed
+                    Error: NA
+                    ---
+                    
+                    [2025-09-23T08:04:10.722Z]
+                    OrderID: 68d24ee28d1bfb1f99adfb6b
+                    Gateway: PayzApp
+                    Status: failed
+                    Amount: 25000 / 25000
+                    Payment Mode: net_banking
+                    Bank Ref: 5114920886182
+                    Message: payment Failed
+                    Error: NA
+                    ---
+                    
+                    [2025-09-23T08:07:59.486Z]
+                    OrderID: 68d24ee28d1bfb1f99adfb6b
+                    Gateway: PayzApp
+                    Status: failed
+                    Amount: 25000 / 25000
+                    Payment Mode: net_banking
+                    Bank Ref: 5114920886182
+                    Message: payment Failed
+                    Error: NA
+                    ---
+                    
+                    [2025-09-23T08:08:22.727Z]
+                    OrderID: 68d24ee28d1bfb1f99adfb6b
+                    Gateway: PayzApp
+                    Status: failed
+                    Amount: 25000 / 25000
+                    Payment Mode: net_banking
+                    Bank Ref: 5114920886182
+                    Message: payment Failed
+                    Error: NA
+                    ---
+                    

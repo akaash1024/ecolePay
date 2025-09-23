@@ -11,6 +11,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 
 import { Overview } from "./component/dashboard/Overview";
+import { OrderStatus } from "./component/dashboard/OrderStatus";
 
 
 
@@ -29,7 +30,10 @@ const router = createBrowserRouter([
         path: "/overview",
         element: <Overview />,
       },
-      
+      {
+        path: "/status",
+        element : <OrderStatus />
+      }
     ],
   },
 ]);
@@ -37,12 +41,10 @@ const router = createBrowserRouter([
 export const App = () => {
   return (
     <>
-      
-
       <Provider store={store}>
-        
         <AuthProvider>
           <RouterProvider router={router} />
+          
           <ToastContainer
             position="bottom-left"
             autoClose={3000}

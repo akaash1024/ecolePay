@@ -6,8 +6,8 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const { pages, status } = useSelector((state) => state.transactions);
-  
+  const { pages } = useSelector((state) => state.transactions);
+
   // State for filters and pagination
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState([]);
@@ -17,12 +17,11 @@ export const AuthProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
-  
+
   // Get unique values for filters
-  
+
   const transactionSet = pages[currentPage] || [];
   const uniqueStatuses = [...new Set(transactionSet.map((t) => t.status))];
-  const uniqueSchools = [...new Set(transactionSet.map((t) => t.school_id))];
 
   // console.log(uniqueSchools);
 
@@ -64,31 +63,25 @@ export const AuthProvider = ({ children }) => {
 
   // Filtering and sorting logic
   const filteredAndSortedTransactions = useMemo(() => {
-    let filtered = transactionSet.filter((transaction) => {
-      // console.log(`well what i am actual gettign data second time ?!!!`, transactionSet);
+    let transactionSet = pages[currentPage] || [];
 
-      // Search filter
+    let filtered = transactionSet.filter((transaction) => {
       const searchMatch =
-        searchTerm === "" ||
-        Object.values(transaction).some((value) =>
-          value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        searchTerm == "" ||
+        Object.values(transaction).some(
+          (value) =>
+            value
+              .toString()
+              .toLowerCase()
+              .startsWith(searchTerm.toLowerCase()) ||
+            value.toString().toLowerCase().includes(searchTerm.toLowerCase())
         );
 
       // Status filter
       const statusMatch =
         statusFilter.length === 0 || statusFilter.includes(transaction.status);
 
-      // School filter
-      const schoolMatch =
-        schoolFilter.length === 0 ||
-        schoolFilter.includes(transaction.school_id);
-
-      // Date filter
-      const dateMatch =
-        (!dateFrom || transaction.created_at >= dateFrom) &&
-        (!dateTo || transaction.created_at <= dateTo);
-
-      return searchMatch && statusMatch && schoolMatch && dateMatch;
+      return searchMatch && statusMatch;
     });
 
     // console.log(`le/t me check here what is sorted data`, filtered);
@@ -136,11 +129,13 @@ export const AuthProvider = ({ children }) => {
     sortConfig,
     setSortConfig,
     uniqueStatuses,
-    uniqueSchools,
     transactionSet,
 
     filteredAndSortedTransactions,
   };
+
+  console.log(filteredAndSortedTransactions);
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

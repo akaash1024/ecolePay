@@ -1,0 +1,430 @@
+{
+	"info": {
+		"_postman_id": "73545e3e-3b06-4e86-8f7b-3792d894c48d",
+		"name": "écolePay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37564071",
+		"_collection_link": "https://logn99.postman.co/workspace/Team-Workspace~9513deb8-6687-4d45-8b94-9cd7517f5271/collection/37564071-73545e3e-3b06-4e86-8f7b-3792d894c48d?action=share&source=collection_link&creator=37564071"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Trustee Auth",
+					"item": [
+						{
+							"name": "register",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Auggie Salazar",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "auggie.salazar@example.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "auggie.salazar",
+											"type": "text"
+										},
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": "postman-cloud:///1f0980eb-869f-4040-8c42-fe409b4c4166"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{auth}}/register",
+									"host": [
+										"{{auth}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"akash.kevat@example.com\",\r\n    \"password\":\"akash.kevat\"\r\n}"
+								},
+								"url": {
+									"raw": "{{auth}}/login",
+									"host": [
+										"{{auth}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createStudent id",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Aarya Rabari",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "aarya.rabari@example.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "aarya.rabari",
+											"type": "text"
+										},
+										{
+											"key": "studentId",
+											"value": "cap01_005",
+											"type": "text"
+										},
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": "postman-cloud:///1f00626a-ef7b-4a80-967d-b1f3fb42b30c"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{auth}}/create-user",
+									"host": [
+										"{{auth}}"
+									],
+									"path": [
+										"create-user"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "IGNORE - StudentAuth",
+					"item": [
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"aarya.rabari@example.com\",\r\n    \"password\": \"aarya.rabari\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{student}}/login",
+									"host": [
+										"{{student}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "student account only create by trustee and  \nstudent can login only by POSTMAN for now."
+				}
+			]
+		},
+		{
+			"name": "IGNORE - paymentGateWay   - Creating TESTING ONLY sample data",
+			"item": [
+				{
+					"name": "generateJWT Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"school_id\": \"12345\",\r\n    \"amount\": \"5000\",\r\n    \"callback_url\": \"https://yourdomain.com/payment-callback\",\r\n    \"sign\": \"<JWT_SIGNATURE>\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/generateToken",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"generateToken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "new Payment Order Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0cnVzdGVlSWQiOiI2NWIwZTU1MmRkMzE5NTBhOWI0MWM1YmEiLCJJbmRleE9mQXBpS2V5Ijo2fQ.IJWTYCOurGCFdRM2xyKtw6TEcuwXxGnmINrXFfsAdt0",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"school_id\": \"65b0e6293e9f76a9694d84b4\",\r\n  \"amount\": \"5000\",\r\n  \"callback_url\": \"https://hiredd-dun.vercel.app/\",\r\n  \"sign\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY2hvb2xfaWQiOiI2NWIwZTYyOTNlOWY3NmE5Njk0ZDg0YjQiLCJhbW91bnQiOiI1MDAwIiwiY2FsbGJhY2tfdXJsIjoiaHR0cHM6Ly9oaXJlZGQtZHVuLnZlcmNlbC5hcHAvIiwiaWF0IjoxNzU4MjY2MzExfQ.zBfrIz56SGmWOoKvpuCvpUD2GiZ0BVEWVsDRQJi4sxg\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://dev-vanilla.edviron.com/erp/create-collect-request",
+							"protocol": "https",
+							"host": [
+								"dev-vanilla",
+								"edviron",
+								"com"
+							],
+							"path": [
+								"erp",
+								"create-collect-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gennerate check Token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/check-status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"check-status"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "this is for understanding only please ignore  \nfor myself use only.. ."
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "create-payment-request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 25000,\r\n    \"callback_url\": \"https://hiredd-dun.vercel.app\",\r\n    \"student_Id\": \"68cd00a94ed7f4779fe6affe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{order}}/create-payment",
+							"host": [
+								"{{order}}"
+							],
+							"path": [
+								"create-payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check-payment-status",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{order}}/check-status/ORD001",
+							"host": [
+								"{{order}}"
+							],
+							"path": [
+								"check-status",
+								"ORD001"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "webHook",
+			"item": [
+				{
+					"name": "webhook-post to DB",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": 200,\r\n  \"order_info\": {\r\n    \"order_id\": \"68d24ee28d1bfb1f99adfb6b\",\r\n    \"order_amount\": 25000,\r\n    \"transaction_amount\": 25000,\r\n    \"gateway\": \"net_banking\",\r\n    \"bank_reference\": \"5114920886182\",\r\n    \"order_status\": \"failed\",\r\n    \"payment_mode\": \"net_banking\",\r\n    \"payment_details\": \"testsuccess@gocash\",\r\n    \"payment_message\": \"payment Failed\",\r\n    \"payment_time\": \"2025-09-23T08:23:58.436Z\",\r\n    \"error_message\": \"NA\"\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{webhook}}/webhook",
+							"host": [
+								"{{webhook}}"
+							],
+							"path": [
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -4,26 +4,30 @@ import { Pagination } from "./Pagination";
 import { FilterSorting } from "./FilterSorting";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTransactions } from "../../features/transactions/transactionSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const Overview = () => {
   const {
-    setSearchTerm,
-    setStatusFilter,
-    setSchoolFilter,
-    setDateFrom,
-    setDateTo,
-    setCurrentPage,
     sortConfig,
     setSortConfig,
-
     currentPage,
-    itemsPerPage,
     filteredAndSortedTransactions,
   } = useAuth();
+  
+  let navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.users);
+  useEffect(() => {
+    if (!currentUser) {
+      setTimeout(() => {
+        toast.error("Please log in first!");
+      }, 1000);
+      navigate("/", { replace: true });
+    }
+  }, [currentUser]);
 
-  const { pages, pageStatus } = useSelector((state) => state.transactions);
+  const { pages } = useSelector((state) => state.transactions);
   const transactions = pages[currentPage];
-  const currentPageStatus = pageStatus[currentPage];
 
   const dispatch = useDispatch();
 
@@ -48,17 +52,6 @@ export const Overview = () => {
     setSortConfig({ key, direction });
   };
 
-  const getStatusBadge = (status) => {
-    const colors = {
-      Success: "bg-green-100 text-green-800",
-      Pending: "bg-yellow-100 text-yellow-800",
-      Failed: "bg-red-100 text-red-800",
-    };
-    return `px-2 py-1 rounded-full text-xs font-medium ${
-      colors[status] || "bg-gray-100 text-gray-800"
-    }`;
-  };
-
   return (
     <>
       <main className="min-h-screen bg-white overflow-auto">
@@ -73,7 +66,7 @@ export const Overview = () => {
               {/* Enhanced Dashboard Data Section */}
 
               <div className="bg-white border-2 border-green-300 rounded-lg overflow-hidden">
-                <div className="h-[625px] ">
+                <div className="h-[365px] ">
                   <table className="w-full">
                     <thead className="bg-gray-50 border-b-2 border-gray-200">
                       <tr>
@@ -89,14 +82,13 @@ export const Overview = () => {
                           { key: "status", label: "Status" },
                           {
                             key: "custom_order_id",
-                            label: "Custom Order ID",
+                            label: "Order ID",
                           },
-                          { key: "created_at", label: "Date" },
                         ].map((column) => (
                           <th
                             key={column.key}
                             onClick={() => handleSort(column.key)}
-                            className="text-left p-4 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors select-none"
+                            className="text-left p-1 font-semibold text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors select-none"
                           >
                             <div className="flex items-center justify-between">
                               {column.label}
@@ -121,7 +113,7 @@ export const Overview = () => {
                         </tr>
                       ) : filteredAndSortedTransactions.length === 0 ? (
                         <tr>
-                          <td colSpan="8" className="text-center p-8">
+                          <td colSpan="7" className="text-center p-8">
                             No transactions found
                           </td>
                         </tr>
@@ -130,47 +122,44 @@ export const Overview = () => {
                           (transaction, index) => (
                             <tr
                               key={transaction.collect_id}
-                              className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${
+                              className={`border-b border-gray-100 transform transition-all duration-300 hover:-translate-y-1 hover:bg-gray-200 ${
                                 index % 2 === 0 ? "bg-white" : "bg-gray-50"
                               }`}
                             >
-                              <td className="p-4 font-mono text-sm text-blue-600">
+                              <td className="p-1 font-mono text-sm text-blue-600">
                                 {transaction.collect_id}
                               </td>
-                              <td className="p-4 font-mono text-sm text-purple-600">
+                              <td className="p-1 font-mono text-sm text-purple-600">
                                 {transaction.school_id}
                               </td>
-                              <td className="p-4">
+                              <td className="p-1">
                                 <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
                                   {transaction.gateway}
                                 </span>
                               </td>
-                              <td className="p-4 font-semibold text-gray-900">
+                              <td className="p-1 font-semibold text-gray-900">
                                 ₹{transaction.order_amount.toLocaleString()}
                               </td>
-                              <td className="p-4 font-semibold text-green-600">
+                              <td className="p-1 font-semibold text-green-600">
                                 ₹
                                 {transaction.transaction_amount.toLocaleString()}
                               </td>
-                              <td className="p-4">
+                              <td className="p-1">
                                 <span
                                   className={`px-2 py-1 rounded-full text-xs font-medium ${
                                     {
-                                      Success: "bg-green-100 text-green-800",
-                                      Pending: "bg-yellow-100 text-yellow-800",
-                                      Failed: "bg-red-100 text-red-800",
+                                      success: "bg-green-100 text-green-800",
+                                      pending: "bg-yellow-100 text-yellow-800",
+                                      failed: "bg-red-100 text-red-800",
                                     }[transaction.status] ||
                                     "bg-gray-100 text-gray-800"
                                   }`}
                                 >
-                                  {transaction.status}
+                                  {transaction.status.toUpperCase()}
                                 </span>
                               </td>
-                              <td className="p-4 font-mono text-sm text-gray-600">
+                              <td className="p-1 font-mono text-sm text-gray-600">
                                 {transaction.custom_order_id}
-                              </td>
-                              <td className="p-4 text-sm text-gray-500">
-                                {transaction.created_at}
                               </td>
                             </tr>
                           )

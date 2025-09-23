@@ -1,6 +1,6 @@
 
 
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createDraftSafeSelector, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../api/axios";
 
 
@@ -18,10 +18,20 @@ export const fetchTransactions = createAsyncThunk("transactions/fetchTransaction
         };
 
     } catch (error) {
-        return rejectWithValue(error.response?.data || { message: "Failed to fetch user" })
+        return rejectWithValue(error.response?.data || { message: "Failed to fetch transactions" })
     }
 })
 
+export const fetchTransactionStatus = createAsyncThunk("transactions/fetchTransactionStatus", async (id, { rejectWithValue }) => {
+    try {
+        const { data } = await api.get(`/api/order/check-status/${id}`)
+        return data;
+
+    } catch (error) {
+        return rejectWithValue(error.response?.data || { message: "Failed to fetch transaction status" })
+    }
+}
+)
 
 
 
@@ -39,9 +49,9 @@ const transactionSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchTransactions.pending, (state, action) => {
-                const page = action.meta.arg; 
+                const page = action.meta.arg;
                 console.log(page);
-                
+
                 state.pageStatus[page] = "loading";
                 state.error = null;
             })

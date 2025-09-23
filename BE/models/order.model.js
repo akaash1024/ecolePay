@@ -1,9 +1,9 @@
- const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
     school_id: {
         type: mongoose.Schema.Types.ObjectId,
-        default: new mongoose.Types.ObjectId("65b0e6293e9f76a9694d84b4"),
+        default: new mongoose.Types.ObjectId("65b0e6293e9f76a9694d84b5"),
         required: true
     },
     trustee_id: { type: mongoose.Schema.Types.ObjectId, ref: "TrusteeAuth", required: true },
@@ -12,11 +12,7 @@ const orderSchema = new mongoose.Schema({
         id: { type: String, required: true },
         email: { type: String, required: true }
     },
-    gateway_name: {
-        type: String,
-        enum: ["cash", "online"],
-        default: "online"
-    },
+    gateway_name: { type: String, },
     collect_request_id: { type: String, required: true },
     amount: { type: Number, required: true }
 }, {

@@ -27,23 +27,26 @@ const edvironWebhook = async (req, res, next) => {
         // Find the order
         // collection (Link id) 68d13097154d1bce65b604bb
         // orderId // orderStatus = 68d130921dd8ef0412ff6e8f
-        
+
         const order = await Order.findOne({ _id: order_id });
-        console.log(order);
+        
 
         if (!order) return res.status(404).json({ message: "Order not found" });
-        
+
         // // Find the OrderStatus
         const orderStatus = await OrderStatus.findOne({ collect_id: order._id });
         if (!orderStatus) return res.status(404).json({ message: "OrderStatus not found" });
-        console.log(orderStatus);
         
+        console.log(order.gateway_name);
+        console.log(gateway);
+
         // res.status(200).json({message: "Reach till here", result:orderStatus})
 
         // // Update fields
         orderStatus.status = order_status;
         orderStatus.transaction_amount = transaction_amount;
-        orderStatus.payment_mode = payment_mode || gateway;
+        order.gateway_name = gateway;
+        orderStatus.payment_mode = payment_mode;
         orderStatus.payment_details = payment_details || "";
         orderStatus.payment_message = payment_message || "";
         orderStatus.bank_reference = bank_reference || "";
@@ -51,6 +54,7 @@ const edvironWebhook = async (req, res, next) => {
         orderStatus.error_message = error_message || "";
 
         await orderStatus.save();
+        await order.save();
 
         return res.status(200).json({ success: true, messaage: `Order number ${order_id} has been updated☑️` });
     } catch (err) {
