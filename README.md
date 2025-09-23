@@ -162,16 +162,11 @@ VITE_APP_NAME=ÉcolePay
 ## 📱 Screenshots
 
 ### Dashboard Overview
-![Dashboard](screenshots/dashboard.png)
+<img width="1906" height="885" alt="Screenshot 2025-09-23 151308" src="https://github.com/user-attachments/assets/9d8a387d-0ea4-4c2a-9117-b21a13ba6391" />
+<img width="1919" height="480" alt="Screenshot 2025-09-23 151347" src="https://github.com/user-attachments/assets/30580558-9988-4220-85a2-3fe34935e159" />
+<img width="1919" height="478" alt="Screenshot 2025-09-23 151359" src="https://github.com/user-attachments/assets/7b22b6a4-a2b3-495d-92a2-bdee30e78813" />
+<img width="1919" height="1079" alt="Screenshot 2025-09-23 151328" src="https://github.com/user-attachments/assets/0619df73-f20b-44e5-a8ae-740654db2208" />
 
-### Transaction Details
-![Transactions](screenshots/transactions.png)
-
-### Payment Flow
-![Payment](screenshots/payment-flow.png)
-
-### Mobile Responsive
-![Mobile](screenshots/mobile-view.png)
 
 
 ## 📈 Monitoring & Logging
