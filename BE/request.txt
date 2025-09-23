@@ -1040,3 +1040,5 @@ Time: 23/9/2025, 2:31:26 pm | Route: /api/trustee/me | Method: GET
 Time: 23/9/2025, 2:31:38 pm | Route: /api/order/check-status/ORD005 | Method: GET
 Time: 23/9/2025, 2:31:46 pm | Route: /api/trustee/logout | Method: GET
 Time: 23/9/2025, 2:36:18 pm | Route: /api/trustee/me | Method: GET
+Time: 23/9/2025, 2:37:52 pm | Route: /api/trustee/me | Method: GET
+Time: 23/9/2025, 2:38:10 pm | Route: /api/trustee/login | Method: OPTIONS
