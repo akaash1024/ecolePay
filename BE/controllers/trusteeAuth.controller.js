@@ -1,6 +1,18 @@
 
+const School = require("../models/school.model");
 const { TrusteeAuth } = require("../models/trusteeAuth.model");
 const uploadOnCloudinary = require("../utils/cloudinary");
+
+const logout = async (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    });
+
+    res.status(200).json({ success: true, message: "Logged out successfully" });
+}
+
 
 const register = async (req, res, next) => {
     try {
@@ -21,7 +33,7 @@ const register = async (req, res, next) => {
             return res.status(500).json({ message: "Failed to upload avatar" });
         }
 
-        
+
 
         const newtrustee = await TrusteeAuth.create({
             name,
@@ -73,16 +85,37 @@ const login = async (req, res, next) => {
             sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
             maxAge: 24 * 60 * 60 * 1000,
         });
+        const safeTrustee = await TrusteeAuth.findById(trustee._id).select("-password");
+
+        const school = await School.findOne({ _id: process.env.SCHOOL_ID });
 
         return res.status(200).json({
             success: true,
             message: "Login successful",
-            token,
+            user: safeTrustee,
             userId: trustee._id.toString(),
+            school,
         });
+
     } catch (error) {
         next(error);
     }
 };
 
-module.exports = { register, login };
+
+const user = async (req, res, next) => {
+    try {
+        const userData = req.user;
+        const school = await School.findOne({ _id: process.env.SCHOOL_ID });
+        return res.status(200).json({
+            success: true,
+            message: "User details fetched successfully.",
+            userData,
+            school,
+        });
+
+    } catch (error) {
+        next(error)
+    }
+}
+module.exports = { register, login, user, logout };

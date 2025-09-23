@@ -15,6 +15,8 @@ const isAuthenticated = async (req, res, next) => {
     
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        console.log(decoded);
+        
 
         const userData = await TrusteeAuth.findById(decoded.userId).select("-password");
         if (!userData) {

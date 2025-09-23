@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { toast } from "react-toastify";
 import { logoutUser } from "../../features/user/userSlice";
+import { NavLink } from "react-router-dom";
 
 export const Header = () => {
   const dispatch = useDispatch();
@@ -23,25 +24,46 @@ export const Header = () => {
         {/* logo */}
         <div className="flex items-center">
           <div className="size-auto px-2 h-12 bg-green-500 rounded-2xl flex items-center justify-center">
-            <span className="text-white text-2xl font-bold">$ÉcolePay</span>
+            <NavLink to="/">
+              <span className="text-white text-3xl font-bold">$ÉcolePay</span>
+            </NavLink>
           </div>
         </div>
 
         {/* navigation button */}
         <div className="flex items-center gap-4">
           {currentUser ? (
-            <button
-              className="cursor-pointer px-6 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition-colors"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
+            <>
+              {/* Sidebar */}
+
+              <div className="flex-1 flex  justify-between items-center gap-4 ">
+                <NavLink
+                  to="/overview"
+                  className="cursor-pointer px-3 py-1 bg-green-400 text-green-900 rounded-full font-medium hover:text-white transition-colors"
+                >
+                  Overview
+                </NavLink>
+                <li className="cursor-pointer px-3 py-1 bg-green-400 text-green-900 rounded-full font-medium hover:text-white transition-colors">
+                  School
+                </li>
+                <li className="cursor-pointer px-3 py-1 bg-green-400 text-green-900 rounded-full font-medium hover:text-white transition-colors">
+                  Status
+                </li>
+              </div>
+
+              <button type="button"
+                className="cursor-pointer px-6 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition-colors"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
           ) : (
             <>
-              <button className="cursor-pointer px-6 py-2 bg-green-500 text-white rounded-full font-medium hover:bg-green-600 transition-colors">
+              <button type="button" className="cursor-pointer px-6 py-2 bg-green-500 text-white rounded-full font-medium hover:bg-green-600 transition-colors">
                 Sing up
               </button>
-              <button className="cursor-pointer px-6 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition-colors">
+              <button type="button" className="cursor-pointer px-6 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition-colors">
                 Login
               </button>
             </>

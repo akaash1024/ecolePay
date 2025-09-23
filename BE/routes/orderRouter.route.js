@@ -6,15 +6,16 @@ const { validateCreateOrder, validateCheckTransaction } = require("../utils/vali
 const orderRouter = require("express").Router()
 
 
-orderRouter.route("/transactions").post(isAuthenticated, orderController.getTransactions)
+orderRouter.route("/transactions").get(isAuthenticated, orderController.getTransactions)
+
 orderRouter.route("/transactions/school/:schoolId").post(isAuthenticated, orderController.getTransactionsBySchool)
-orderRouter.route("/transaction-status/:custom_order_id").post(isAuthenticated, validateCheckTransaction, orderController.checkTransactionStatus)
 
 
 
 orderRouter.route("/create-payment").post(isAuthenticated, validateCreateOrder, orderController.createOrderRequest)
 
-orderRouter.route("/check-status/:collect_request_id").get(orderController.checkOrder_status)
+
+orderRouter.route("/check-status/:customOrderId").get(isAuthenticated, orderController.checkOrder_status)
 
 
 

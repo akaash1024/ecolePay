@@ -78,13 +78,14 @@ export const Login = () => {
             />
           </div>
 
-          <button
+          <button type="button"
             onClick={handleSubmit}
             disabled={status === "loading"}
             className="w-full bg-green-500 text-white py-3 px-4 rounded-xl font-medium hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
           >
             {status === "loading" ? "Loging in..." : "Log in"}
           </button>
+          
         </div>
       </div>
     </>

@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { AuthProvider } from "./context/AuthProvide";
+import { AuthProvider } from "./context/AuthProvider";
 import { AppLayout } from "./layout/AppLayout";
 import { ErrorPage } from "./pages/ErrorPage";
 
@@ -9,7 +9,10 @@ import { ToastContainer } from "react-toastify";
 import { Main } from "./pages/Main";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import { Dashboard } from "./component/Dashboard";
+
+import { Overview } from "./component/dashboard/Overview";
+
+
 
 
 const router = createBrowserRouter([
@@ -23,9 +26,10 @@ const router = createBrowserRouter([
         element: <Main />,
       },
       {
-        path: "/dashboard",
-        element: <Dashboard />,
+        path: "/overview",
+        element: <Overview />,
       },
+      
     ],
   },
 ]);
@@ -33,6 +37,8 @@ const router = createBrowserRouter([
 export const App = () => {
   return (
     <>
+      
+
       <Provider store={store}>
         
         <AuthProvider>

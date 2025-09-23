@@ -19,9 +19,15 @@ export const Main = () => {
               <div className="space-y-6">
                 <h1 className="text-4xl lg:text-6xl font-bold text-black leading-tight">
                   No More Lines, Just Online <br />
-                  $end, Pay, Done.. .
+                  <span>
+                    <span className="text-green-300">$</span>end,{" "}
+                    <span className="text-green-300">P</span>ay,{" "}
+                    <span className="text-green-300 underline">Done</span>.. .
+                  </span>
                 </h1>
-                <h2>Seamless Fee Payments for Every School</h2>
+                <h2 className="text-lg lg:text-2xl text-gray-700">
+                  Seamless Fee Payments for Every School
+                </h2>
               </div>
 
               {/* right item */}
@@ -96,10 +102,16 @@ export const Main = () => {
 
                     {/* Action Buttons */}
                     <div className="flex gap-3 mb-8">
-                      <button className="flex-1 bg-green-500 rounded-xl py-3 px-4 text-white font-medium hover:bg-green-600 transition">
+                      <button
+                        type="button"
+                        className="flex-1 bg-green-500 rounded-xl py-3 px-4 text-white font-medium hover:bg-green-600 transition"
+                      >
                         Pay Now
                       </button>
-                      <button className="flex-1 bg-white border border-gray-200 rounded-xl py-3 px-4 text-black font-medium">
+                      <button
+                        type="button"
+                        className="flex-1 bg-white border border-gray-200 rounded-xl py-3 px-4 text-black font-medium"
+                      >
                         Share Link
                       </button>
                     </div>

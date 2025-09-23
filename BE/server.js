@@ -3,24 +3,20 @@ const express = require("express");
 const { connectDB } = require("./database/connectDB");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
-const trusteeAuthRouter = require("./routes/trusteeAuth.route");
 
+const trusteeAuthRouter = require("./routes/trusteeAuth.route");
+const cors = require("cors")
 const errorHandler = require("./middleware/errorHandler.middleware");
 const studentAuthRouter = require("./routes/studentAuth.route");
 const cookieParser = require("cookie-parser");
 const orderRouter = require("./routes/orderRouter.route");
 const edvironWebhook = require("./routes/edvironWebhook.route");
 const getSchool = require("./routes/school.route");
-
-const { createOrderRequest } = require("./controllers/order.controller");
-const isAuthenticated = require("./middleware/isAuthenicated.middleware");
 const { loggerMiddleware } = require("./middleware/logger.middleware");
-
+const weblogger = require("./middleware/weblogger.middleware");
 
 
 const app = express();
-const router = express.Router();
-
 
 // middlewares
 app.use(express.json());
@@ -28,27 +24,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(loggerMiddleware)
 
-app.post("/webhook", edvironWebhook)
-/*
-// Test GET route
-router.get("/api/create-payment", (req, res) => {
-    res.status(200).json({ message: "GET works!" });
-});
+app.use(cors({
+    origin: "http://localhost:5173", 
+    credentials: true                
+}));
 
-// POST route with body
-router.post("/api/create-payment", isAuthenticated, createOrderRequest);
+// ! this is for web hook testing once get response would solve.
+app.post("/webhook", weblogger, edvironWebhook)
 
-// Webhook route
-router.post("/webhook", (req, res) => {
-    console.log("Webhook received:", req.body);
-    res.status(200).json({ message: "Webhook received successfully" });
-});
-
-// Attach router
-app.use("/", router);
-*/
-
-app.use("/api/trustee", isAuthenticated, createOrderRequest)
+app.use("/api/trustee", trusteeAuthRouter)
 app.use("/api/order", orderRouter)
 
 

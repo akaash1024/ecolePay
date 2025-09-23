@@ -30,6 +30,9 @@ const createOrderRequest = async (req, res, next) => {
         const student = await StudentAuth.findById(student_Id);
         if (!student) return res.status(404).json({ message: "Student not found" });
 
+        const totalOrders = await Order.countDocuments();
+        const sequenceNumber = String(totalOrders + 1).padStart(3, "0"); // 001, 002, etc.
+
         const newOrder = await Order.create({
             trustee_id: req.userId,
             student_info: { name: student.name, id: student._id.toString(), email: student.email },
@@ -43,7 +46,8 @@ const createOrderRequest = async (req, res, next) => {
             order_amount: amount,
             transaction_amount: 0,
             payment_mode: gateway_name || "online",
-            status: "pending"
+            status: "pending",
+            custom_order_id: `ORD${sequenceNumber}`
         });
 
         res.status(200).json({ success: true, newOrder, paymentLink: collect_request_url });
@@ -54,54 +58,42 @@ const createOrderRequest = async (req, res, next) => {
 
 
 
-const checkOrder_status = async (req, res, next) => {
-    try {
-        const { collect_request_id } = req.params;
-        const payload = { school_id: process.env.SCHOOL_ID, collect_request_id };
-        const sign = jwt.sign(payload, process.env.PG_SECRET_KEY, { algorithm: "HS256" });
 
-        const url = `https://dev-vanilla.edviron.com/erp/collect-request/${collect_request_id}?school_id=${process.env.SCHOOL_ID}&sign=${sign}`;
-
-        const response = await axios.get(url, {
-            headers: { Authorization: `Bearer ${process.env.EDVIRON_API_KEY}` } // Ensure env var
-        });
-
-        return res.status(200).json(response.data);
-    } catch (error) {
-        next(error);
-    }
-};
 // Get all transactions
 const getTransactions = async (req, res, next) => {
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
-        const sortField = req.query.sort || "payment_time";
-        const sortOrder = req.query.order === "desc" ? -1 : 1;
+
         const skip = (page - 1) * limit;
 
-        const transactions = await OrderStatus.aggregate([
-            { $lookup: { from: "orders", localField: "collect_id", foreignField: "_id", as: "order_info" } },
-            { $unwind: "$order_info" },
-            { $sort: { [sortField]: sortOrder } },
-            { $skip: skip },
-            { $limit: limit },
-            {
-                $project: {
-                    _id: 0,
-                    collect_id: "$collect_id",
-                    school_id: "$order_info.school_id",
-                    gateway: "$order_info.gateway_name",
-                    order_amount: "$order_amount",
-                    transaction_amount: "$transaction_amount",
-                    status: "$status",
-                    custom_order_id: "$order_info.collect_request_id",
-                    payment_time: "$payment_time"
-                }
-            }
-        ]);
 
-        res.status(200).json({ success: true, data: transactions });
+
+
+        const transactions = await OrderStatus.aggregate(
+            [
+                { $lookup: { from: "orders", localField: "collect_id", foreignField: "_id", as: "order_info" } },
+                { $unwind: "$order_info" },
+                { $skip: skip },
+                { $limit: limit },
+                {
+                    $project: {
+                        _id: 0,
+                        collect_id: "$collect_id",
+                        school_id: "$order_info.school_id",
+                        gateway: "$order_info.gateway_name",
+                        order_amount: "$order_amount",
+                        transaction_amount: "$transaction_amount",
+                        status: "$status",
+                        custom_order_id: "$order_info.collect_request_id",
+                        payment_time: "$payment_time"
+                    }
+                }
+            ]
+        );
+        const totalOrders = await Order.countDocuments();
+
+        res.status(200).json({ success: true, ordersList: transactions, totalOrders });
     } catch (err) {
         next(err);
     }
@@ -148,36 +140,31 @@ const getTransactionsBySchool = async (req, res, next) => {
     }
 };
 
-// Check transaction status
-const checkTransactionStatus = async (req, res, next) => {
+
+const checkOrder_status = async (req, res, next) => {
+    const { customOrderId } = req.params;
+    //68d17659154d1bce65b60d77
     try {
-        const { custom_order_id } = req.params;
+        const getOrderStatus = await OrderStatus.findOne({ custom_order_id: customOrderId })
 
-        const order = await Order.findOne({ collect_request_id: custom_order_id });
-        if (!order) return res.status(404).json({ success: false, message: "Order not found" });
+        const getOrder = await Order.findOne({ _id: getOrderStatus.collect_id.toString() });
+        const { collect_request_id } = getOrder
 
-        const orderStatus = await OrderStatus.findOne({ collect_id: order._id });
-        if (!orderStatus) return res.status(404).json({ success: false, message: "Transaction not found" });
+        const payload = { school_id: process.env.SCHOOL_ID, collect_request_id };
+        const sign = jwt.sign(payload, process.env.PG_SECRET_KEY, { algorithm: "HS256" });
 
-        res.status(200).json({
-            success: true,
-            data: {
-                custom_order_id,
-                status: orderStatus.status,
-                order_amount: orderStatus.order_amount,
-                transaction_amount: orderStatus.transaction_amount,
-                payment_mode: orderStatus.payment_mode,
-                payment_time: orderStatus.payment_time
-            }
+        const url = `https://dev-vanilla.edviron.com/erp/collect-request/${collect_request_id}?school_id=${process.env.SCHOOL_ID}&sign=${sign}`;
+
+        const response = await axios.get(url, {
+            headers: { Authorization: `Bearer ${process.env.EDVIRON_API_KEY}` }
         });
-    } catch (err) {
-        next(err);
+
+        return res.status(200).json(response.data);
+    } catch (error) {
+        next(error);
     }
 };
 
 
 
-
-
-
-module.exports = { createOrderRequest, checkOrder_status, getTransactions, getTransactionsBySchool, checkTransactionStatus, checkOrder_status };
+module.exports = { createOrderRequest, checkOrder_status, getTransactions, getTransactionsBySchool, checkOrder_status };

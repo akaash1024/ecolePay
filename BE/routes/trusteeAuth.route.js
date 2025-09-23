@@ -15,9 +15,14 @@ function checkdata(req, res, next) {
 
 }
 
+// get logged in user
+trusteeAuthRouter.route("/me").get(isAuthenticated, trusteedAuthController.user);
+
+
 // trustee routes
 trusteeAuthRouter.route("/register").post(checkdata, upload.single("avatar"), trusteedAuthController.register)
 trusteeAuthRouter.route("/login").post(trusteedAuthController.login)
+trusteeAuthRouter.route("/logout").get(trusteedAuthController.logout) 
 
 
 // Student routes
