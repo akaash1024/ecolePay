@@ -32,23 +32,23 @@
 									"formdata": [
 										{
 											"key": "name",
-											"value": "Auggie Salazar",
+											"value": "Ye Wenjie",
 											"type": "text"
 										},
 										{
 											"key": "email",
-											"value": "auggie.salazar@example.com",
+											"value": "ye.wenjie@example.com",
 											"type": "text"
 										},
 										{
 											"key": "password",
-											"value": "auggie.salazar",
+											"value": "ye.wenjie",
 											"type": "text"
 										},
 										{
 											"key": "avatar",
 											"type": "file",
-											"src": "postman-cloud:///1f0980eb-869f-4040-8c42-fe409b4c4166"
+											"src": "postman-cloud:///1f099093-95c2-41a0-a474-131198a75809"
 										}
 									]
 								},
@@ -80,7 +80,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"akash.kevat@example.com\",\r\n    \"password\":\"akash.kevat\"\r\n}"
+									"raw": "{\r\n    \"email\":\"ye.wenjie@example.com\",\r\n    \"password\":\"ye.wenjie\"\r\n}"
 								},
 								"url": {
 									"raw": "{{auth}}/login",
@@ -331,7 +331,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"amount\": 25000,\r\n    \"callback_url\": \"https://hiredd-dun.vercel.app\",\r\n    \"student_Id\": \"68cd00a94ed7f4779fe6affe\"\r\n}",
+							"raw": "{\r\n    \"amount\": 12500,\r\n    \"callback_url\": \"https://hiredd-dun.vercel.app\",\r\n    \"student_Id\": \"68cd00a94ed7f4779fe6affe\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -371,13 +371,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{order}}/check-status/ORD001",
+							"raw": "{{order}}/check-status/ORD015",
 							"host": [
 								"{{order}}"
 							],
 							"path": [
 								"check-status",
-								"ORD001"
+								"ORD015"
 							],
 							"query": [
 								{
@@ -405,7 +405,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"status\": 200,\r\n  \"order_info\": {\r\n    \"order_id\": \"68d24ee28d1bfb1f99adfb6b\",\r\n    \"order_amount\": 25000,\r\n    \"transaction_amount\": 25000,\r\n    \"gateway\": \"net_banking\",\r\n    \"bank_reference\": \"5114920886182\",\r\n    \"order_status\": \"failed\",\r\n    \"payment_mode\": \"net_banking\",\r\n    \"payment_details\": \"testsuccess@gocash\",\r\n    \"payment_message\": \"payment Failed\",\r\n    \"payment_time\": \"2025-09-23T08:23:58.436Z\",\r\n    \"error_message\": \"NA\"\r\n  }\r\n}\r\n",
+							"raw": "{\r\n  \"status\": 200,\r\n  \"order_info\": {\r\n    \"order_id\": \"68d24ee28d1bfb1f99adfb6b\",\r\n    \"order_amount\": 25000,\r\n    \"transaction_amount\": 25000,\r\n    \"gateway\": \"PayzApp\",\r\n    \"bank_reference\": \"5114920886182\",\r\n    \"order_status\": \"failed\",\r\n    \"payment_mode\": \"net_banking\",\r\n    \"payment_details\": \"testsuccess@gocash\",\r\n    \"payment_message\": \"payment Failed\",\r\n    \"payment_time\": \"2025-09-23T08:23:58.436Z\",\r\n    \"error_message\": \"NA\"\r\n  }\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
